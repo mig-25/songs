@@ -33,7 +33,7 @@ $result = $pdo->query("call sp_songs");
     </head>
     <body>
 <!-- Länk till lägga till nya skämt -->        
-        <a href="add_songs.php">Add New Song to Album</a> &nbsp; | &nbsp;
+        <a href="songsAdd.php">Add New Song to Album</a> &nbsp; | &nbsp;
         <a href="album.php">Add New Album</a>
         <br/><br/>
  
@@ -65,7 +65,7 @@ $result = $pdo->query("call sp_songs");
         echo "<td>".$row['SongTrackNr']."</td>";
         echo "<td>".$row['SongName']."</td>";
         echo "<td>".$row['SongDuration']."</td>";
-        echo "<td><a href=\"songEdit.php?id=$row[SongId]\">Edit</a> | <a href=\"songDelete.php?id=$row[SongId]\" onClick=\"return confirm('Are you sure you want to delete?')\">Delete</a></td>";        
+        echo "<td><a href=\"songsEdit.php?id=$row[SongId]\">Edit</a> | <a href=\"songsDelete.php?id=$row[SongId]\" onClick=\"return confirm('Are you sure you want to delete?')\">Delete</a></td>";        
     }
     
     ?>
