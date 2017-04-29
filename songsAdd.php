@@ -19,39 +19,39 @@ if(empty($_SESSION['email']))
 echo "Welcome ".$_SESSION['name']."<br>";
 
 if(isset($_POST['Submit'])) {    
-    $aeroplaneName = $_POST['aeroplane'];
-    $aeroplaneTopSpeed = $_POST['speed'];
-    $aeroplaneRange = $_POST['range'];
-    $planeMakerid = $_POST['planeMakerID'];
+    $SongTrackNr = $_POST['SongTrackNr'];
+    $SongName = $_POST['SongName'];
+    $SongDuration = $_POST['SongDuration'];
+    $AlbumId = $_POST['AlbumId'];
         
     // checking empty fields
-    if(empty($aeroplaneName) || empty($aeroplaneTopSpeed) || empty($aeroplaneRange)) {
+    if(empty($SongTrackNr) || empty($SongName) || empty($SongDuration)) {
                 
-        if(empty($aeroplaneName)) {
-            echo "<font color='red'>Aeroplane field is empty.</font><br/>";
+        if(empty($SongTrackNr)) {
+            echo "<font color='red'>Track# field is empty.</font><br/>";
         }
         
-        if(empty($aeroplaneTopSpeed)) {
-            echo "<font color='red'>Speed field is empty.</font><br/>";
+        if(empty($SongName)) {
+            echo "<font color='red'>Song name field is empty.</font><br/>";
         }
         
-        if(empty($aeroplaneRange)) {
-            echo "<font color='red'>Range field is empty.</font><br/>";
+        if(empty($SongDuration)) {
+            echo "<font color='red'>Song duration field is empty.</font><br/>";
         }
         
         //link to the previous page
         echo "<br/><a href='javascript:self.history.back();'>Go Back</a>";
     } else { 
-        // if all the fields are filled (not empty) 
+        // if all the fields are filled (not empty)
             
         //insert data to database        
-        $sql = "INSERT INTO aeroplane(aeroplaneName, aeroplaneTopSpeed, aeroplaneRange, planeMakerID) VALUES(:aeroplaneName, :aeroplaneTopSpeed, :aeroplaneRange, :planeMakerID)";
+        $sql = "INSERT INTO Songs(SongTrackNr, SongName, SongDuration, AlbumId) VALUES(:SongTrackNr, :SongName, :SongDuration, :AlbumId)";
         $query = $pdo->prepare($sql);
                 
-        $query->bindparam(':aeroplaneName', $aeroplaneName);
-        $query->bindparam(':aeroplaneTopSpeed', $aeroplaneTopSpeed);
-        $query->bindparam(':aeroplaneRange', $aeroplaneRange);
-        $query->bindparam(':planeMakerID', $planeMakerid);
+        $query->bindparam(':SongTrackNr', $SongTrackNr);
+        $query->bindparam(':SongName', $SongName);
+        $query->bindparam(':SongDuration', $SongDuration);
+        $query->bindparam(':AlbumId', $AlbumId);
         $query->execute();
         
         // Alternative to above bindparam and execute
@@ -59,7 +59,7 @@ if(isset($_POST['Submit'])) {
         
         //display success message
         echo "<font color='green'>Data added successfully.";
-        echo "<br/><a href='aeroplane.php'>View Result</a>";
+        echo "<br/><a href='SongsRead.php'>View Result</a>";
     }
 }
 
@@ -69,9 +69,9 @@ if(isset($_POST['Submit'])) {
  * som ladda i en dropdown.
  * Nedanståend sql fråga är basen för den dropdown
 */
-$planeMakerSql = "SELECT * FROM plane_maker"; 
-$planeMakerQuery = $pdo->prepare($planeMakerSql); 
-$planeMakerQuery->execute(); 
+$AlbumSql = "SELECT * FROM Album"; 
+$AlbumQuery = $pdo->prepare($AlbumSql); 
+$AlbumQuery->execute(); 
         
 ?>
 
@@ -79,22 +79,22 @@ $planeMakerQuery->execute();
 
 <html>
     <head>
-        <title>Aeroplanes</title>
+        <title>Songs</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <a href="aeroplane.php">Home</a>
+        <a href="SongsRead.php">Home</a>
     <br/><br/>
 
-    <form action="add_form.php" method="post" name="form1">
+    <form action="songsAdd.php" method="post" name="form1">
         <table width="25%" border="0">
             <tr> 
-                <td>Aeroplane data</td>
+                <td>Album data</td>
 <!-- Här lägger vi till det nya flygplanet -->                
-                <td><input type="text" name="aeroplane" placeholder="aeroplane name"></td>
-                <td><input type="text" name="speed" placeholder="aeroplane speed"></td>
-                <td><input type="text" name="range" placeholder="aeroplane range"></td>
+                <td><input type="text" name="SongTrackNr" placeholder="song track nr"></td>
+                <td><input type="text" name="SongName" placeholder="song name"></td>
+                <td><input type="text" name="SongDuration" placeholder="song length"></td>
             </tr>
             
             <tr> 
@@ -103,17 +103,17 @@ $planeMakerQuery->execute();
 
 <!-- Vi skapar en dropdown som laddas med författare från databasen, så att inte
 användare inte lägger till författare som inte existerar-->    
-<select name="planeMakerID"> 
+<select name="AlbumId"> 
 <?php
 
-//$planeMakerID="";
-while($planeMaker = $planeMakerQuery->fetch()) { 
-if ($planeMaker['planeMakerID'] == $planeMakerID) { 
-//The aeroplane maker is currently associated to the aeroplane, select it by default 
-echo "<option value=\"{$planeMaker['planeMakerID']}\" selected>{$planeMaker['planeMakerName']}</option>"; 
+//$AlbumId="";
+while($Album = $AlbumQuery->fetch()) { 
+if ($Album['AlbumId'] == $AlbumId) { 
+ 
+echo "<option value=\"{$Album['AlbumId']}\" selected>{$Album['AlbumName']}</option>"; 
 } else { 
-//The aeroplane maker is not currently associated to the aeroplane 
-echo "<option value=\"{$planeMaker['planeMakerID']}\">{$planeMaker['planeMakerName']}</option>"; 
+
+echo "<option value=\"{$Album['AlbumId']}\">{$Album['AlbumName']}</option>"; 
 } 
 } 
 ?> 

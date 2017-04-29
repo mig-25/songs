@@ -21,7 +21,7 @@ echo "Welcome ".$_SESSION['name'];
  * ska redigera eller ta bort en rad.
  */
 
-$result = $pdo->query("call sp_songs");
+$result = $pdo->query("select * from Album");
 
 
 
@@ -29,21 +29,16 @@ $result = $pdo->query("call sp_songs");
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Songs</title>
+        <title>Albums</title>
     </head>
     <body>
 <!-- Länk till lägga till nya skämt -->        
-        <a href="songsAdd.php">Add New Song to Album</a> &nbsp; | &nbsp;
-        <a href="albumRead.php">Add New Album</a>
-        <br/><br/>
+<a href="SongsRead.php">Home</a>&nbsp; | &nbsp;<a href="addAlbum.php">Add New Album</a><br/><br/>
  
     <table width='80%' border=0>
  
     <tr bgcolor='#CCCCCC'>
-        <td>Album Name</td>
-        <td>Track #</td>
-        <td>Song Name</td>
-        <td>Duration</td>
+        <td>Maker Name</td>
         <td>Update</td>
     </tr>
     <?php
@@ -62,10 +57,7 @@ $result = $pdo->query("call sp_songs");
     while($row = $result->fetch()) {         
         echo "<tr>";
         echo "<td>".$row['AlbumName']."</td>";
-        echo "<td>".$row['SongTrackNr']."</td>";
-        echo "<td>".$row['SongName']."</td>";
-        echo "<td>".$row['SongDuration']."</td>";
-        echo "<td><a href=\"songsEdit.php?id=$row[SongId]\">Edit</a> | <a href=\"songsDelete.php?id=$row[SongId]\" onClick=\"return confirm('Are you sure you want to delete?')\">Delete</a></td>";        
+        echo "<td><a href=\"editAlbum.php?id=$row[AlbumId]\">Edit</a> | <a href=\"deleteAlbum.php?id=$row[AlbumId]\" onClick=\"return confirm('Are you sure you want to delete?')\">Delete</a></td>";        
     }
     
     ?>
