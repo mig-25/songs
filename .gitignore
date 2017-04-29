@@ -5,3 +5,5 @@ nbproject/*
 !nbproject/project.xml
 
 config.php
+/songs.sql
+*.php
